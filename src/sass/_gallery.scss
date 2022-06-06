@@ -2,5 +2,20 @@
 display: flex;
 flex-wrap: wrap;
 justify-content: space-evenly;
-background-color: bisque;
+background-color: #ff7700;
+}
+
+img {
+    display: block;
+    width: 400px;
+    height: 300px;
+    overflow: hidden;
+    object-fit: cover;
+    border-radius: 15%;
+    padding: 10px;
+}
+
+.info-item {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-style: italic;
 }

@@ -1,0 +1,35 @@
+.search-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: rgb(39, 38, 38);
+    margin-bottom: 5px;
+    padding: 20px;
+    
+    &:hover,
+    &:focus {
+        background-color: rgba(9, 9, 12, 0.267);
+    }
+}
+
+
+button {
+    border-radius: 10%;
+    margin: 15px;
+    font-weight: bold;
+    height: 33px;
+    &:hover,
+    &:focus {
+        background-color: #00ffff;
+    }
+}
+
+[name="searchQuery"] {
+    display: flex;
+    
+    height: 33px;
+    min-width:330px;
+    border-radius: 5px;
+    box-shadow: #c0440b 3px 3px 3px;
+}

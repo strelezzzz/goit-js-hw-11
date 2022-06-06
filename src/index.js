@@ -1,4 +1,4 @@
-// import './sass/main.scss';
+import './sass/main.scss';
 // ==========================================
 import { getRefs } from './js/refs';
 import { getImageService } from './js/query-service';
@@ -8,7 +8,7 @@ const { form, loadMore, gallery } = getRefs();
 // -----------------------------------------
 form.addEventListener('submit', onFormSubmit);
 loadMore.addEventListener('click', onLoadMore);
-loadMore.hidden = true;
+loadMore.classList.add('visually-hidden');
 
 // ======function onFormSubmit========================
 function onFormSubmit(evt) {
@@ -25,17 +25,18 @@ function onFormSubmit(evt) {
   getImageService.fetchImages().then(({ hits, total, hasNextPage }) => {
     if (hits.length === 0) {
       message.noImage();
+      form.reset();
       return;
     }
     if (hits.length < getImageService.per_page) {
       message.EndOfSearch();
-      loadMore.hidden = true;
+      loadMore.classList.add('visually-hidden');
     }
     message.count(total);
     renderGallery(hits);
 
     if (hasNextPage) {
-      loadMore.hidden = false;
+      loadMore.classList.remove('visually-hidden');
     }
   });
 }
