@@ -1,14 +1,15 @@
-import './sass/main.scss';
+// import './sass/main.scss';
 // ==========================================
 import { getRefs } from './js/refs';
 import { getImageService } from './js/query-service';
 import { message } from './js/message';
 import { renderGallery, clearGallery } from './js/markup';
-const { form, loadMore } = getRefs();
+const { form, loadMore, gallery } = getRefs();
 // -----------------------------------------
 form.addEventListener('submit', onFormSubmit);
 loadMore.addEventListener('click', onLoadMore);
 loadMore.hidden = true;
+
 // ======function onFormSubmit========================
 function onFormSubmit(evt) {
   evt.preventDefault();
@@ -32,6 +33,7 @@ function onFormSubmit(evt) {
     }
     message.count(total);
     renderGallery(hits);
+
     if (hasNextPage) {
       loadMore.hidden = false;
     }
@@ -46,6 +48,7 @@ function onLoadMore() {
     if (hasNextPage) {
       console.log(hasNextPage);
       renderGallery(hits);
+
       return;
     } else {
       message.EndOfSearch();
@@ -53,3 +56,4 @@ function onLoadMore() {
     }
   });
 }
+// =======================================

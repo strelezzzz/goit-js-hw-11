@@ -1,5 +1,6 @@
 import { getRefs } from './refs';
 const { gallery } = getRefs();
+
 // ============================
 export function renderGallery(images) {
   const imageCard = images
