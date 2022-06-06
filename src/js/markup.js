@@ -1,6 +1,6 @@
 import { getRefs } from './refs';
 const { gallery } = getRefs();
-// ======
+// ============================
 export function renderGallery(images) {
   const imageCard = images
     .map(
@@ -25,4 +25,7 @@ export function renderGallery(images) {
     )
     .join('');
   gallery.insertAdjacentHTML('beforeend', imageCard);
+}
+export function clearGallery() {
+  gallery.innerHTML = '';
 }

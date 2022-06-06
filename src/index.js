@@ -1,11 +1,10 @@
 import './sass/main.scss';
 // ==========================================
 import { getRefs } from './js/refs';
-const { form, loadMore } = getRefs();
 import { getImageService } from './js/query-service';
 import { message } from './js/message';
-import { renderGallery } from './js/markup';
-console.log(renderGallery);
+import { renderGallery, clearGallery } from './js/markup';
+const { form, loadMore } = getRefs();
 // -----------------------------------------
 form.addEventListener('submit', onFormSubmit);
 loadMore.addEventListener('click', onLoadMore);
@@ -13,43 +12,39 @@ loadMore.hidden = true;
 // ======function onFormSubmit========================
 function onFormSubmit(evt) {
   evt.preventDefault();
-  const input = form.elements.searchQuery.value.trim();
-  loadMore.hidden = false;
+  clearGallery();
+  getImageService.inputData = form.elements.searchQuery.value.trim();
   getImageService.resetPage();
-  if (!input) {
+  //
+  if (!getImageService.inputData) {
     message.noInput();
     form.reset();
     return;
   }
-  getImageService.fetchImages(input).then(({ hits }) => {
-    console.log(hits);
-    renderGallery(hits);
+  getImageService.fetchImages().then(({ hits, total, hasNextPage }) => {
     if (hits.length === 0) {
       message.noImage();
       return;
     }
     message.count(total);
+    renderGallery(hits);
+    if (hasNextPage) {
+      loadMore.hidden = false;
+    }
   });
-  // const { total, hits } = response;
-
-  // console.log(hits);
 }
-// =============================================================================================
-async function onLoadMore() {
+// ======function onLoadMore=====================================
+function onLoadMore() {
   getImageService.incrementPage();
+  getImageService.fetchImages().then(({ hits, hasNextPage }) => {
+    if (hasNextPage) {
+      console.log(hasNextPage);
+      renderGallery(hits);
 
-  const input = form.elements.searchQuery.value.trim();
-
-  const response = await getImageService.fetchImages(input); //тут await можна не писати, бо він один?
-  const { total, hits, hasNextPage } = response;
-
-  if (hasNextPage) {
-    console.log(hasNextPage);
-    console.log(hits);
-
-    return;
-  } else {
-    message.EndOfSearch();
-    loadMore.hidden = true;
-  }
+      return;
+    } else {
+      message.EndOfSearch();
+      loadMore.hidden = true;
+    }
+  });
 }

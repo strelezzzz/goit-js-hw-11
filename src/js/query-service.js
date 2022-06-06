@@ -11,9 +11,11 @@ axios.defaults.params = {
 };
 
 export const getImageService = {
-  async fetchImages(query) {
+  async fetchImages() {
     try {
-      const { data } = await axios.get(`/?q=${query}&page=${this.page}&per_page=${this.per_page}`);
+      const { data } = await axios.get(
+        `/?q=${this.inputData}&page=${this.page}&per_page=${this.per_page}`,
+      );
       return {
         hits: data.hits,
         total: data.totalHits,
@@ -25,8 +27,8 @@ export const getImageService = {
   },
 
   page: 1,
-  per_page: 10,
-  query: '',
+  per_page: 40,
+  inputData: '',
 
   incrementPage() {
     this.page += 1;
@@ -34,10 +36,10 @@ export const getImageService = {
   resetPage() {
     this.page = 1;
   },
-  get input() {
-    return this.query;
+  get query() {
+    return this.inputData;
   },
-  set input(newQuery) {
-    this.query = newQuery;
+  set query(newQuery) {
+    this.inputData = newQuery;
   },
 };
