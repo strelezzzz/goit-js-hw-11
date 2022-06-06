@@ -26,6 +26,10 @@ function onFormSubmit(evt) {
       message.noImage();
       return;
     }
+    if (hits.length < getImageService.per_page) {
+      message.EndOfSearch();
+      loadMore.hidden = true;
+    }
     message.count(total);
     renderGallery(hits);
     if (hasNextPage) {
@@ -37,10 +41,11 @@ function onFormSubmit(evt) {
 function onLoadMore() {
   getImageService.incrementPage();
   getImageService.fetchImages().then(({ hits, hasNextPage }) => {
+    renderGallery(hits);
+
     if (hasNextPage) {
       console.log(hasNextPage);
       renderGallery(hits);
-
       return;
     } else {
       message.EndOfSearch();

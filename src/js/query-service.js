@@ -6,7 +6,7 @@ axios.defaults.baseURL = 'https://pixabay.com/api';
 axios.defaults.params = {
   key: API_KEY,
   image_type: 'photo',
-  orientation: 'horisontal',
+  orientation: 'horizontal',
   safesearch: 'true',
 };
 
