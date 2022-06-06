@@ -4,7 +4,7 @@ import { getRefs } from './js/refs';
 import { getImageService } from './js/query-service';
 import { message } from './js/message';
 import { renderGallery, clearGallery } from './js/markup';
-const { form, loadMore, gallery } = getRefs();
+const { form, loadMore } = getRefs();
 // Описаний в документації
 import SimpleLightbox from 'simplelightbox';
 // Додатковий імпорт стилів
@@ -65,8 +65,9 @@ function onLoadMore() {
 // =======================================
 function rebuildGallery() {
   simplelightbox = new SimpleLightbox('.gallery a', {
-    caption: true,
-    captionsData: 'alt',
-    captionDelay: 250,
+    spinner: true,
+    nav: true,
+    showCounter: true,
+    enableKeyboard: true,
   }).refresh();
 }
