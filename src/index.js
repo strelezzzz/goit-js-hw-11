@@ -5,10 +5,15 @@ import { getImageService } from './js/query-service';
 import { message } from './js/message';
 import { renderGallery, clearGallery } from './js/markup';
 const { form, loadMore, gallery } = getRefs();
+// Описаний в документації
+import SimpleLightbox from 'simplelightbox';
+// Додатковий імпорт стилів
+import 'simplelightbox/dist/simple-lightbox.min.css';
 // -----------------------------------------
 form.addEventListener('submit', onFormSubmit);
 loadMore.addEventListener('click', onLoadMore);
 loadMore.classList.add('visually-hidden');
+let simplelightbox;
 
 // ======function onFormSubmit========================
 function onFormSubmit(evt) {
@@ -38,6 +43,7 @@ function onFormSubmit(evt) {
     if (hasNextPage) {
       loadMore.classList.remove('visually-hidden');
     }
+    rebuildGallery();
   });
 }
 // ======function onLoadMore=====================================
@@ -49,12 +55,18 @@ function onLoadMore() {
     if (hasNextPage) {
       console.log(hasNextPage);
       renderGallery(hits);
-
-      return;
     } else {
       message.EndOfSearch();
-      loadMore.hidden = true;
+      loadMore.classList.add('visually-hidden');
     }
+    rebuildGallery();
   });
 }
 // =======================================
+function rebuildGallery() {
+  simplelightbox = new SimpleLightbox('.gallery a', {
+    caption: true,
+    captionsData: 'alt',
+    captionDelay: 250,
+  }).refresh();
+}

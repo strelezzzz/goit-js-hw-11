@@ -7,7 +7,9 @@ export function renderGallery(images) {
     .map(
       ({ webformatURL, largeImageURL, tags, likes, views, comments, downloads } /* html */) =>
         `<div class="photo-card">
-        <img src="${webformatURL}" alt="${tags}" loading="lazy" data-src="${largeImageURL}" />
+        <a class = gallery__link href ="${largeImageURL}" rel = ”noreferrer” rel = ”noopener”>
+        <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+        </a>
         <div class="info">
             <p class="info-item">
                 <b>Likes: ${likes}</b>
