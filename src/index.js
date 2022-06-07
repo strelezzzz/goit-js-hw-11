@@ -21,7 +21,7 @@ function onFormSubmit(evt) {
   clearGallery();
   getImageService.inputData = form.elements.searchQuery.value.trim();
   getImageService.resetPage();
-  //
+  //перевірка на пусті рядки
   if (!getImageService.inputData) {
     message.noInput();
     form.reset();
@@ -29,15 +29,14 @@ function onFormSubmit(evt) {
   }
   //
   getImageService.fetchImages().then(({ hits, total, hasNextPage }) => {
+    //перевірка на абрукадабру
     if (hits.length === 0) {
       message.noImage();
       form.reset();
       return;
     }
     message.count(total);
-    renderGallery(hits);
-    rebuildGallery();
-    checkerOfNextPage(hasNextPage);
+    GalleryBuilder(hits, hasNextPage);
   });
 }
 // ======function onLoadMore=====================================
@@ -45,20 +44,18 @@ function onLoadMore() {
   getImageService.incrementPage();
   getImageService.fetchImages().then(({ hits, hasNextPage }) => {
     simplelightbox.destroy();
-    renderGallery(hits);
-    rebuildGallery();
-    checkerOfNextPage(hasNextPage);
+    GalleryBuilder(hits, hasNextPage);
   });
 }
 // =======================================
-function rebuildGallery() {
+function rebuildGalleryWithLightbox() {
   simplelightbox = new SimpleLightbox('.gallery a', {
     nav: true,
     showCounter: true,
     enableKeyboard: true,
   }).refresh();
 }
-
+// ===========================
 function checkerOfNextPage(hasNextPage) {
   if (!hasNextPage) {
     message.EndOfSearch();
@@ -66,4 +63,10 @@ function checkerOfNextPage(hasNextPage) {
   } else {
     loadMore.classList.remove('visually-hidden');
   }
+}
+// ======================
+function GalleryBuilder(hits, hasNextPage) {
+  renderGallery(hits);
+  rebuildGalleryWithLightbox();
+  checkerOfNextPage(hasNextPage);
 }
