@@ -27,47 +27,43 @@ function onFormSubmit(evt) {
     form.reset();
     return;
   }
+  //
   getImageService.fetchImages().then(({ hits, total, hasNextPage }) => {
     if (hits.length === 0) {
       message.noImage();
       form.reset();
       return;
     }
-    if (hits.length < getImageService.per_page) {
-      message.EndOfSearch();
-      loadMore.classList.add('visually-hidden');
-    }
     message.count(total);
     renderGallery(hits);
-
-    if (hasNextPage) {
-      loadMore.classList.remove('visually-hidden');
-    }
     rebuildGallery();
+    checkerOfNextPage(hasNextPage);
   });
 }
 // ======function onLoadMore=====================================
 function onLoadMore() {
   getImageService.incrementPage();
   getImageService.fetchImages().then(({ hits, hasNextPage }) => {
+    simplelightbox.destroy();
     renderGallery(hits);
-
-    if (hasNextPage) {
-      console.log(hasNextPage);
-      renderGallery(hits);
-    } else {
-      message.EndOfSearch();
-      loadMore.classList.add('visually-hidden');
-    }
     rebuildGallery();
+    checkerOfNextPage(hasNextPage);
   });
 }
 // =======================================
 function rebuildGallery() {
   simplelightbox = new SimpleLightbox('.gallery a', {
-    spinner: true,
     nav: true,
     showCounter: true,
     enableKeyboard: true,
   }).refresh();
+}
+
+function checkerOfNextPage(hasNextPage) {
+  if (!hasNextPage) {
+    message.EndOfSearch();
+    loadMore.classList.add('visually-hidden');
+  } else {
+    loadMore.classList.remove('visually-hidden');
+  }
 }
